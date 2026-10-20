@@ -28,13 +28,16 @@ Building:
 ----------
 
     $ ./bootstrap
-    $ ./configure --with-astversion=16.20
+    $ ./configure --with-astversion=22
     $ make
     $ make install
     copy quectel.conf to /etc/asterisk Change context and audio serial port as required
 
 If you run a different version of Asterisk, you'll need to update the
-`16.20` as appropriate, obviously.
+`--with-astversion` parameter as appropriate (e.g. `--with-astversion=22` for Asterisk 22,
+`--with-astversion=23` for Asterisk 23, or `--with-astversion=20` for Asterisk 20).
+If `--with-astversion` is omitted, configure will attempt to auto-detect the version
+from the Asterisk header files.
 
 If you did not `make install` Asterisk in the usual location and configure
 cannot find the asterisk header files in `/usr/include/asterisk`, you may
@@ -56,7 +59,7 @@ single quotes.*
     exten => ussd,n,System(echo '${STRFTIME(${EPOCH},,%Y-%m-%d %H:%M:%S)} - ${QUECTELNAME}: ${BASE64_DECODE(${USSD_BASE64})}' >> /var/log/asterisk/ussd.txt)
     exten => ussd,n,Hangup()
 
-    exten => s,1,Dial(SIP/2001@othersipserver)
+    exten => s,1,Dial(PJSIP/2001@othersipserver)
     exten => s,n,Hangup()
 
     [othersipserver-incoming]

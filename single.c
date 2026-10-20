@@ -22,3 +22,5 @@
 #include "pdu.c"
 #include "mixbuffer.c"
 #include "pdiscovery.c"
+#include "error.c"
+#include "smsdb.c"

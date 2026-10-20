@@ -23,6 +23,10 @@
 #undef PACKAGE_URL
 #undef PACKAGE_VERSION
 
+#ifdef ASTERISK_VERSION_NUM
+#undef ASTERISK_VERSION_NUM
+#endif
+
 #include "config.h"
 
 #endif /* HAVE_CONFIG_H */

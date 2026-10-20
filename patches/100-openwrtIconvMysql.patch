@@ -1,6 +1,6 @@
 --- a/configure.ac
 +++ b/configure.ac
-@@ -83,8 +83,9 @@
+@@ -103,8 +103,9 @@
  
  dnl Checks for libraries.
  dnl AC_CHECK_LIB([pthread], [pthread_create])  # should use ast_pthread_join everywhere?
@@ -12,7 +12,7 @@
  
  dnl Checks for header files.
  AC_CHECK_HEADERS([fcntl.h stdlib.h string.h sys/time.h termios.h])
-@@ -109,8 +110,8 @@
+@@ -129,8 +130,8 @@
  )
  
  AC_HEADER_FIND([asterisk.h], $with_asterisk)
@@ -23,12 +23,12 @@
  
  AC_DEFINE([ICONV_CONST],[], [Define to const if you has iconv() const declaration of input buffer])
  AC_MSG_CHECKING([for iconv use const inbuf])
-@@ -224,8 +225,6 @@
+@@ -244,8 +245,6 @@
  if test "x$enable_debug" = "xyes" ; then
    CFLAGS="$CFLAGS -O0 -g"
    AC_DEFINE([__DEBUG__], [1], [Build with debugging])
 -else
--  CFLAGS="$CFLAGS -O6"
+-  CFLAGS="$CFLAGS -O2"
  fi
  
  dnl Asterisk header files use lots of old style declarations, ignore those.

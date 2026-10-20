@@ -34,7 +34,7 @@ define Package/asterisk-chan-quectel/Default
   SUBMENU:=Telephony
   SECTION:=net
   CATEGORY:=Utilities
-  URL:=https://github.com/IchthysMaranatha/asterisk-chan-quectel
+  URL:=https://github.com/scjtqs2/asterisk-chan-quectel
   DEPENDS:=$(ICONV_DEPENDS) +kmod-usb-acm +kmod-usb-serial +kmod-usb-serial-option +libusb-1.0 +usb-modeswitch +alsa-lib
   TITLE:=Asterisk Mobile Telephony Module
 endef
@@ -45,16 +45,81 @@ $(call Package/asterisk-chan-quectel/Default)
   VARIANT:=asterisk16
 endef
 
+define Package/asterisk18-chan-quectel
+$(call Package/asterisk-chan-quectel/Default)
+  DEPENDS+=asterisk18
+  VARIANT:=asterisk18
+endef
+
+define Package/asterisk20-chan-quectel
+$(call Package/asterisk-chan-quectel/Default)
+  DEPENDS+=asterisk20
+  VARIANT:=asterisk20
+endef
+
+define Package/asterisk22-chan-quectel
+$(call Package/asterisk-chan-quectel/Default)
+  DEPENDS+=asterisk22
+  VARIANT:=asterisk22
+endef
+
+define Package/asterisk23-chan-quectel
+$(call Package/asterisk-chan-quectel/Default)
+  DEPENDS+=asterisk23
+  VARIANT:=asterisk23
+endef
+
+define Package/asterisk-chan-quectel
+$(call Package/asterisk-chan-quectel/Default)
+  DEPENDS+=asterisk
+  VARIANT:=asterisk
+endef
+
 define Package/description/Default
  Asterisk channel driver for mobile telephony.
 endef
 
 Package/asterisk16-chan-quectel/description = $(Package/description/Default)
+Package/asterisk18-chan-quectel/description = $(Package/description/Default)
+Package/asterisk20-chan-quectel/description = $(Package/description/Default)
+Package/asterisk22-chan-quectel/description = $(Package/description/Default)
+Package/asterisk23-chan-quectel/description = $(Package/description/Default)
+Package/asterisk-chan-quectel/description = $(Package/description/Default)
 
 ifeq ($(BUILD_VARIANT),asterisk16)
   CHAN_quectel_AST_HEADERS:=$(STAGING_DIR)/usr/include/asterisk-16/include
   CONFIGURE_ARGS+= \
 	  --with-astversion=16
+endif
+
+ifeq ($(BUILD_VARIANT),asterisk18)
+  CHAN_quectel_AST_HEADERS:=$(STAGING_DIR)/usr/include/asterisk-18/include
+  CONFIGURE_ARGS+= \
+	  --with-astversion=18
+endif
+
+ifeq ($(BUILD_VARIANT),asterisk20)
+  CHAN_quectel_AST_HEADERS:=$(STAGING_DIR)/usr/include/asterisk-20/include
+  CONFIGURE_ARGS+= \
+	  --with-astversion=20
+endif
+
+ifeq ($(BUILD_VARIANT),asterisk22)
+  CHAN_quectel_AST_HEADERS:=$(STAGING_DIR)/usr/include/asterisk-22/include
+  CONFIGURE_ARGS+= \
+	  --with-astversion=22
+endif
+
+ifeq ($(BUILD_VARIANT),asterisk23)
+  CHAN_quectel_AST_HEADERS:=$(STAGING_DIR)/usr/include/asterisk-23/include
+  CONFIGURE_ARGS+= \
+	  --with-astversion=23
+endif
+
+ifeq ($(BUILD_VARIANT),asterisk)
+  CHAN_quectel_AST_HEADERS:=$(STAGING_DIR)/usr/include
+  CONFIGURE_ARGS+= \
+	  --with-astversion=22
 endif
 
 
@@ -77,6 +142,11 @@ define Package/conffiles/Default
 endef
 
 Package/asterisk16-chan-quectel/conffiles = $(Package/conffiles/Default)
+Package/asterisk18-chan-quectel/conffiles = $(Package/conffiles/Default)
+Package/asterisk20-chan-quectel/conffiles = $(Package/conffiles/Default)
+Package/asterisk22-chan-quectel/conffiles = $(Package/conffiles/Default)
+Package/asterisk23-chan-quectel/conffiles = $(Package/conffiles/Default)
+Package/asterisk-chan-quectel/conffiles = $(Package/conffiles/Default)
 
 define Package/Install/Default
 	$(INSTALL_DIR) $(1)/etc/asterisk
@@ -86,5 +156,15 @@ define Package/Install/Default
 endef
 
 Package/asterisk16-chan-quectel/install = $(Package/Install/Default)
+Package/asterisk18-chan-quectel/install = $(Package/Install/Default)
+Package/asterisk20-chan-quectel/install = $(Package/Install/Default)
+Package/asterisk22-chan-quectel/install = $(Package/Install/Default)
+Package/asterisk23-chan-quectel/install = $(Package/Install/Default)
+Package/asterisk-chan-quectel/install = $(Package/Install/Default)
 
 $(eval $(call BuildPackage,asterisk16-chan-quectel))
+$(eval $(call BuildPackage,asterisk18-chan-quectel))
+$(eval $(call BuildPackage,asterisk20-chan-quectel))
+$(eval $(call BuildPackage,asterisk22-chan-quectel))
+$(eval $(call BuildPackage,asterisk23-chan-quectel))
+$(eval $(call BuildPackage,asterisk-chan-quectel))

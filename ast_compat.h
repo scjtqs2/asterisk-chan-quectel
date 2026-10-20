@@ -3,8 +3,8 @@
 
 #ifndef ASTERISK_VERSION_NUM
 #error ASTERISK_VERSION_NUM is not set. Please re-run configure, \
-	prefixed like this: CPPFLAGS=-DASTERISK_VERSION_NUM=100501 \
-	./configure (where 100501 is asterisk version 10.5.1).
+	prefixed like this: CPPFLAGS=-DASTERISK_VERSION_NUM=220000 \
+	./configure (where 220000 is asterisk version 22.0.0).
 #endif
 
 #include <asterisk/channel.h>

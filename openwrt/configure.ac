@@ -34,12 +34,32 @@ AC_ARG_WITH(
 dnl  Required: asterisk version
 AC_ARG_WITH(
 	[astversion],
-	AS_HELP_STRING([--with-astversion=M.m.u], [set asterisk version; for example: 14 or 13.13.1]),
-	[ if echo "$with_astversion" | grep -qE '^[[0-9]][[0-9]]?(\.[[0-9]][[0-9]]?){0,2}$'
+	AS_HELP_STRING([--with-astversion=M.m.u], [set asterisk version; for example: 22, 23, 20, or 22.0.0]),
+	[ if echo "$with_astversion" | grep -qE '^[[0-9]]+(\.[[0-9]]+){0,2}$'
           then with_astversion=$(echo $with_astversion | sed -e 's/.*/&.0.0/' | tr . '\n' |
 				 head -n3 | sed -e 's/^.$/0&/' | tr -d '\n' | sed -e 's/^0*//')
 	  else AC_MSG_ERROR([Invalid --with-astversion=M.m.u value]); fi ],
-	[ AC_MSG_ERROR([Please set --with-astversion=M.m.u (major.minor.micro)]) ]
+	[
+	  dnl Try auto-detecting Asterisk version from header files if not supplied
+	  for path in $with_asterisk ; do
+	    if test -f "$path/asterisk/ast_version.h" ; then
+	      ast_ver_num=$(grep -E '^#define[[:space:]]+ASTERISK_VERSION_NUM[[:space:]]+[0-9]+' "$path/asterisk/ast_version.h" 2>/dev/null | awk '{print $3}')
+	      if test -n "$ast_ver_num" ; then
+	        with_astversion="$ast_ver_num"
+	        break
+	      fi
+	    elif test -f "$path/asterisk/version.h" ; then
+	      ast_ver_num=$(grep -E '^#define[[:space:]]+ASTERISK_VERSION_NUM[[:space:]]+[0-9]+' "$path/asterisk/version.h" 2>/dev/null | awk '{print $3}')
+	      if test -n "$ast_ver_num" ; then
+	        with_astversion="$ast_ver_num"
+	        break
+	      fi
+	    fi
+	  done
+	  if test -z "$with_astversion" ; then
+	    AC_MSG_ERROR([Please set --with-astversion=M.m.u (major.minor.micro), e.g. --with-astversion=22 or --with-astversion=23])
+	  fi
+	]
 )
 AC_DEFINE_UNQUOTED([ASTERISK_VERSION_NUM], [$with_astversion],
 		   [The Asterisk version as configured --with-astversion.])
